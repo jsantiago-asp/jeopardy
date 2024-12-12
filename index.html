@@ -4,31 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AP CSP Jeopardy Python Code</title>
+
+    <!-- Styles for Syntax Highlighting -->
     <style>
-        /* General Page Styles */
         body {
             font-family: 'Courier New', Courier, monospace;
             background-color: #2b2b2b;
             color: #dcdcdc;
-            line-height: 1.5;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
         }
 
         h1 {
             color: #61dafb;
-            font-size: 24px;
-            margin-bottom: 20px;
             text-align: center;
+            margin-bottom: 20px;
         }
 
         p {
-            color: #bbbbbb;
+            color: #cccccc;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -42,49 +39,29 @@
             text-decoration: underline;
         }
 
-        /* Code Block Styles */
         pre {
-            background-color: #1e1e1e;
-            color: #dcdcdc;
-            padding: 15px;
+            background: #1e1e1e;
+            padding: 20px;
             border-radius: 8px;
-            border: 1px solid #444;
-            font-size: 14px;
             width: 90%;
             overflow-x: auto;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
-        /* Syntax Highlighting */
-        .keyword {
-            color: #569cd6;
-            font-weight: bold;
-        }
-
-        .comment {
-            color: #6a9955;
-            font-style: italic;
-        }
-
-        .string {
-            color: #d69d85;
-        }
-
-        .function {
-            color: #dcdcaa;
-        }
-
-        .number {
-            color: #b5cea8;
-        }
+        .keyword { color: #569cd6; font-weight: bold; }
+        .comment { color: #6a9955; font-style: italic; }
+        .string { color: #d69d85; }
+        .function { color: #dcdcaa; }
+        .number { color: #b5cea8; }
     </style>
 </head>
 <body>
 
-    <h1>AP CSP Jeopardy Python Code</h1>
+    <h1>AP CSP Semester 1 Jeopardy Python Code</h1>
     <p>
-        Below is the Python code for the Jeopardy game. Make sure you have the <strong>pygame</strong> module installed.
+        Below is the Python code for the Jeopardy game. Ensure you have the <strong>pygame</strong> module installed. 
         For more details, visit the <a href="https://realpython.com/pygame-a-primer/" target="_blank">Pygame Primer on Real Python</a>.
     </p>
 
@@ -131,12 +108,26 @@ questions = {
         (<span class="string">"A repeatable sequence of steps to solve a problem."</span>, <span class="string">"What is an algorithm?"</span>)
     ],
     <span class="string">"Debugging"</span>: [
-        (<span class="string">"An error in the structure of code..."</span>, <span class="string">"What is a syntax error?"</span>)
+        (<span class="string">"An error in the structure of code, similar to a grammar mistake in a sentence, that prevents the program from running."</span>, <span class="string">"What is a syntax error?"</span>)
     ]
 }
-point_values = [<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>]  <span class="comment"># Sequencing: Values increase with difficulty.</span>
 
-# Main Game Logic Goes Here...
+<span class="comment"># Game State (Variables: Track the state of the game.)</span>
+selected_question = <span class="keyword">None</span>
+current_description = <span class="keyword">None</span>
+current_response = <span class="keyword">None</span>
+feedback_phase = <span class="keyword">False</span>  <span class="comment"># Boolean: Helps determine the current phase of the game.</span>
+
+<span class="keyword">def</span> draw_board():
+    <span class="string">"""Draw the main game board."""</span>
+    screen.fill(BLUE)
+
+<span class="keyword">def</span> main():
+    pygame.quit()
+    sys.exit()
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    main()
     </pre>
 
 </body>
