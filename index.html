@@ -32,20 +32,32 @@
 # AP CSP Semester 1 Jeopardy Exam Review (V1)
 # In Thonny make sure that you have the pygame module installed
 # For some more background on pygame: https://realpython.com/pygame-a-primer/
-# We will look at pygame more next semester and some of you may use it for the CPT
+# We will look at pygame more next semester and some of you may use for the CPT
 
-import pygame  # Abstraction: Pygame is a library that simplifies game development.
-import sys     # Used for system-level operations, like quitting the program.
+import pygame # A good example of Abstraction since Pygame is a library that simplifies our game development.
+import sys
 
-# Initialize Pygame
+# Initialize Pygame engine
 pygame.init()
 
-# Screen dimensions
-SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 800  # Variables: Storing screen dimensions as constants for reusability.
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # Output: Creates the game window.
-pygame.display.set_caption("Jeopardy Game")  # Metadata for the game window.
+# Setting our screen dimensions
+SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 800
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Jeopardy Game")
 
-# Colors (Using variables to avoid hardcoding and improve reusability.)
+# Colors (Using variables to avoid hardcoding literlals to improve reusability.)
+# RGB (Red, Green, Blue) is a color model used in computer graphics and other digital systems to represent colors. 
+# Each color is represented by 3 values (Red, Green, Blue), where each value ranges from 0 to 255.
+# These values are stored as bytes (8 bits per value). For example:
+# - 0 in binary is 00000000 (all bits off)
+# - 255 in binary is 11111111 (all bits on)
+# Since there are 3 values, we need 3 bytes to represent a single RGB color.
+# Examples:
+# - WHITE = (255, 255, 255): All color channels (R, G, B) are at their maximum intensity.
+# - BLACK = (0, 0, 0): All color channels are off, resulting in no light (black).
+# - BLUE = (0, 0, 255): Only the blue channel is fully on.
+# - GRAY = (200, 200, 200): All color channels are set to a similar mid-range intensity, producing gray.
+# This use of RGB ties back to binary and data representation, a key concept in computer science.
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
@@ -54,15 +66,21 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 GRAY = (200, 200, 200)
 
-# Fonts (Abstraction: Using Pygame's font module to avoid manually designing fonts.)
+# Fonts
+#Fonts (Abstraction: We are using Pygame's font module to avoid manually designing fonts.)
 FONT = pygame.font.Font(None, 36)  # Medium font
-LARGE_FONT = pygame.font.Font(None, 48)  # Large font
+FONT = pygame.font.Font(None, 36)
+LARGE_FONT = pygame.font.Font(None, 48)
 
-# Load Sound (Abstraction: Pygame's `mixer` handles audio for us.)
+# Loading Sound - we will play the jeopardy theme when someone answering a question and the game will be silent otherwise. 
+# (Abstraction: Pygame's `mixer` handles audio for us.)
+# Important note: in order for the sound to work you will need to ut the jeopardy.mp3 file in the same folder as your python program.
+# You can get this file here: https://drive.google.com/file/d/1a560aw9rLOrL_nhyhsuwgIbO-WhpMDrI/view?usp=sharing
 pygame.mixer.init()
-jeopardy_theme = pygame.mixer.Sound("jeopardy.mp3")  # Input/Output: Loading an external resource.
+jeopardy_theme = pygame.mixer.Sound("jeopardy.mp3")  # Updated sound file name
+# Input/Output: Loading an external resource.
 
-# Game Data (Lists and Dictionaries: Data abstraction to organize questions and categories.)
+# Organzing the data for our jeopary questions using lists and dictionaries. Using data abstraction to organize questions and categories.)
 categories = ["Algorithms", "Debugging", "Logic", "Data"]
 questions = {
     "Algorithms": [
@@ -92,25 +110,25 @@ questions = {
 }
 point_values = [100, 200, 300, 400]  # Sequencing: Values increase with difficulty.
 
-# Game State (Variables: Track the state of the game.)
+# Game state variables: Track the state of the game using boolean logic
 selected_question = None
 current_description = None
 current_response = None
-feedback_phase = False  # Boolean: Helps determine the current phase of the game.
-team_selection_phase = False
-selected_team = None
-team_scores = [0, 0, 0, 0]  # List: Storing scores for four teams.
+feedback_phase = False  # True when showing correct response
+team_selection_phase = False  # Phase for team and score adjustment
+selected_team = None  # Currently selected team
+team_scores = [0, 0, 0, 0]  # Scores for Team 1, Team 2, Team 3, Team 4
 
 def draw_text_wrapped(surface, text, font, color, x, y, max_width):
-    """Display text with line wrapping. (Algorithms: Implements a text-wrapping algorithm.)"""
-    if not text:  # Guard clause to avoid errors.
+    """Draw text on the surface, wrapping lines to fit within the max_width."""
+    if not text:  # Safeguard against NoneType
         return
-    words = text.split(' ')  # Abstraction: Splitting text into words for wrapping.
+    words = text.split(' ')
     lines = []
     current_line = []
     current_width = 0
 
-    for word in words:  # Iteration: Loop through words.
+    for word in words: # Iteration: Loop through words.
         word_width, _ = font.size(word + ' ')
         if current_width + word_width > max_width:
             lines.append(' '.join(current_line))
@@ -119,46 +137,50 @@ def draw_text_wrapped(surface, text, font, color, x, y, max_width):
         else:
             current_line.append(word)
             current_width += word_width
-    lines.append(' '.join(current_line))  # Add the last line.
+    lines.append(' '.join(current_line))  # Add the last line
 
-    for i, line in enumerate(lines):  # Iteration: Display each line.
+    for i, line in enumerate(lines):
         line_surface = font.render(line, True, color)
         surface.blit(line_surface, (x, y + i * font.get_linesize()))
 
 def draw_board():
-    """Draw the main game board with categories, questions, and team scores."""
-    screen.fill(BLUE)  # Abstraction: Simplified screen rendering.
+    """Draw the main Jeopardy board and team scores."""
+    screen.fill(BLUE)
 
-    # Draw categories (Data: Accessing `categories` list.)
-    for i, category in enumerate(categories):  # Iteration: Loop through categories.
+    # Draw categories
+    for i, category in enumerate(categories):
         text = FONT.render(category, True, YELLOW)
         screen.blit(text, (i * (SCREEN_WIDTH // len(categories)) + 50, 80))
 
-    # Draw question buttons (Selection: Only render unanswered questions.)
+    # Draw question buttons
     buttons = []
-    for i, category in enumerate(categories):  # Nested loops for categories and points.
+    for i, category in enumerate(categories): # Nested loops for categories and points.
         for j, points in enumerate(point_values):
             question_text, _ = questions[category][j]
-            if question_text is not None:
+            if question_text is not None:  # If the question is unanswered
                 rect = pygame.Rect(i * (SCREEN_WIDTH // len(categories)) + 50, j * 100 + 150, 120, 50)
                 pygame.draw.rect(screen, WHITE, rect)
                 text = FONT.render(str(points), True, BLACK)
                 screen.blit(text, (rect.x + 30, rect.y + 10))
                 buttons.append((category, points, rect))
 
-    # Draw team scores (Iteration and list indexing.)
+    # Draw team scores with spacing
     for i in range(4):
         score_rect = pygame.Rect(50 + i * 280, SCREEN_HEIGHT - 100, 200, 50)
         pygame.draw.rect(screen, GRAY, score_rect)
+        
+        # Draw "Team X" with padding
         team_text = FONT.render(f"Team {i + 1}:", True, BLACK)
         screen.blit(team_text, (score_rect.x + 10, score_rect.y + 10))
+
+        # Draw score with padding to the right
         score_text = FONT.render(f"{team_scores[i]}", True, BLACK)
         screen.blit(score_text, (score_rect.x + 120, score_rect.y + 10))
 
-    return buttons  # Return data to use elsewhere.
+    return buttons
 
 def draw_feedback():
-    """Display either the question description or correct response."""
+    """Display the description or correct response."""
     global feedback_phase
     screen.fill(BLACK)
     if feedback_phase:
@@ -166,34 +188,97 @@ def draw_feedback():
     else:
         draw_text_wrapped(screen, current_description, LARGE_FONT, WHITE, 50, SCREEN_HEIGHT // 2 - 100, SCREEN_WIDTH - 100)
 
+def draw_team_selection():
+    """Display team selection and scoring buttons."""
+    screen.fill(BLACK)
+
+    # Draw team buttons
+    buttons = []
+    for i in range(4):
+        button_rect = pygame.Rect(50 + i * 280, SCREEN_HEIGHT // 2 - 50, 200, 50)
+        pygame.draw.rect(screen, GREEN if selected_team == i else GRAY, button_rect)
+        team_text = FONT.render(f"Team {i + 1}", True, BLACK)
+        screen.blit(team_text, (button_rect.x + 10, button_rect.y + 10))
+        buttons.append((i, button_rect))
+
+    # Draw scoring buttons
+    add_button = pygame.Rect(SCREEN_WIDTH // 2 - 200, SCREEN_HEIGHT // 2 + 100, 150, 50)
+    subtract_button = pygame.Rect(SCREEN_WIDTH // 2 + 50, SCREEN_HEIGHT // 2 + 100, 150, 50)
+    pygame.draw.rect(screen, GREEN, add_button)
+    pygame.draw.rect(screen, RED, subtract_button)
+    screen.blit(FONT.render("Add Points", True, BLACK), (add_button.x + 10, add_button.y + 10))
+    screen.blit(FONT.render("Subtract Points", True, BLACK), (subtract_button.x + 10, subtract_button.y + 10))
+
+    return buttons, add_button, subtract_button
+
 # Main game loop
+# This section demonstrates important algorithmic concepts: sequencing, selection, and iteration.
+# - Sequencing: The program executes instructions in a specific order, such as updating the screen or processing events.
+# - Selection: The loop contains conditional statements (if/else) that allow the program to decide what to do based on the current state (e.g., `if team_selection_phase` or `if event.type == pygame.QUIT`).
+# - Iteration: The `while running` loop ensures the game logic continuously executes as long as the program is active.
+# Abstraction: This function uses other procedures (e.g., `draw_board`, `draw_feedback`) that we wrote earlier to manage complexity. Instead of placing all logic directly in the main loop, we break it into smaller, manageable functions.
+# Relevance for AP CSP End of Year Exam and Create Performance Task:
+# - Students are required to create algorithms that demonstrate sequencing, selection, and iteration, for their CPT projects.
+# - They also need to write and call their own functions (AP calls them 'procedures'), as this program does with `draw_board` and `draw_feedback`.
+# - The main loop acts as the central algorithm, coordinating the game's logic and calling the necessary abstractions to manage complexity.
+
+
 def main():
     global selected_question, current_description, current_response, feedback_phase, team_selection_phase, selected_team, team_scores
     running = True
     clock = pygame.time.Clock()
 
-    while running:
-        if team_selection_phase:  # State management using Booleans.
-            pass  # Handle team selection here.
+    while running:  # State management using Booleans.
+        if team_selection_phase:
+            team_buttons, add_button, subtract_button = draw_team_selection()
         else:
             buttons = draw_board()
             if selected_question:
                 draw_feedback()
 
-        for event in pygame.event.get():  # Event-driven programming.
+        for event in pygame.event.get(): # Event-driven programming.
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                pass  # Handle mouse clicks.
+                x, y = event.pos
+                if team_selection_phase:
+                    # Handle team selection
+                    for team, rect in team_buttons:
+                        if rect.collidepoint(x, y):
+                            selected_team = team
+                    if add_button.collidepoint(x, y) and selected_team is not None:
+                        team_scores[selected_team] += selected_question[1]
+                        team_selection_phase = False
+                        selected_question = None
+                    elif subtract_button.collidepoint(x, y) and selected_team is not None:
+                        team_scores[selected_team] -= selected_question[1]
+                        team_selection_phase = False
+                        selected_question = None
+                elif not selected_question:
+                    for category, points, rect in buttons:
+                        if rect.collidepoint(x, y):
+                            selected_question = (category, points)
+                            current_description, current_response = questions[category][point_values.index(points)]
+                            questions[category][point_values.index(points)] = (None, None)
+                            jeopardy_theme.play()  # Play theme when a question is selected
+                elif not feedback_phase:
+                    feedback_phase = True
+                    jeopardy_theme.stop()  # Stop theme when transitioning to feedback
+                elif feedback_phase:
+                    feedback_phase = False
+                    team_selection_phase = True
 
-        pygame.display.flip()  # Refresh the screen.
-        clock.tick(30)  # Control the frame rate.
+        pygame.display.flip()
+        clock.tick(30)
 
     pygame.quit()
     sys.exit()
 
 if __name__ == "__main__":
     main()
+
   </code></pre>
 </body>
 </html>
