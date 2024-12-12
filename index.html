@@ -4,35 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AP CSP Jeopardy Python Code</title>
-
-    <!-- Prism.js for Syntax Highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <style>
+        /* General Page Styles */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #1e1e1e;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #2b2b2b;
             color: #dcdcdc;
             line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         h1 {
             color: #61dafb;
+            font-size: 24px;
+            margin-bottom: 20px;
             text-align: center;
         }
 
         p {
+            color: #bbbbbb;
             text-align: center;
-            color: #cccccc;
-        }
-
-        pre {
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 5px;
-            border: 1px solid #333;
-            font-size: 14px;
-            overflow-x: auto;
+            margin-bottom: 20px;
         }
 
         a {
@@ -43,122 +41,103 @@
         a:hover {
             text-decoration: underline;
         }
+
+        /* Code Block Styles */
+        pre {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            font-size: 14px;
+            width: 90%;
+            overflow-x: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        /* Syntax Highlighting */
+        .keyword {
+            color: #569cd6;
+            font-weight: bold;
+        }
+
+        .comment {
+            color: #6a9955;
+            font-style: italic;
+        }
+
+        .string {
+            color: #d69d85;
+        }
+
+        .function {
+            color: #dcdcaa;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
     </style>
 </head>
 <body>
 
-<h1>AP CSP Jeopardy Python Code</h1>
-<p>
-    Below is the Python code for the Jeopardy game. Ensure you have the <strong>pygame</strong> module installed. 
-    For more information, visit the <a href="https://realpython.com/pygame-a-primer/" target="_blank">Pygame Primer on Real Python</a>.
-</p>
+    <h1>AP CSP Jeopardy Python Code</h1>
+    <p>
+        Below is the Python code for the Jeopardy game. Make sure you have the <strong>pygame</strong> module installed.
+        For more details, visit the <a href="https://realpython.com/pygame-a-primer/" target="_blank">Pygame Primer on Real Python</a>.
+    </p>
 
-<pre><code class="language-python">
-# Dec 10 2024 - jsantiago@asparis.fr
-# AP CSP Semester 1 Jeopardy Exam Review (V1)
-# In Thonny make sure that you have the pygame module installed
-# For some more background on pygame: https://realpython.com/pygame-a-primer/
-# We will look at pygame more next semester and some of you may use it for the CPT
+    <pre>
+<span class="comment"># Dec 10 2024 - jsantiago@asparis.fr</span>
+<span class="comment"># AP CSP Semester 1 Jeopardy Exam Review (V1)</span>
+<span class="comment"># In Thonny make sure that you have the pygame module installed</span>
+<span class="comment"># For some more background on pygame: https://realpython.com/pygame-a-primer/</span>
+<span class="comment"># We will look at pygame more next semester and some of you may use it for the CPT</span>
 
-import pygame  # Abstraction: Pygame is a library that simplifies game development.
-import sys     # Used for system-level operations, like quitting the program.
+<span class="keyword">import</span> pygame  <span class="comment"># Abstraction: Pygame is a library that simplifies game development.</span>
+<span class="keyword">import</span> sys     <span class="comment"># Used for system-level operations, like quitting the program.</span>
 
-# Initialize Pygame
+<span class="comment"># Initialize Pygame</span>
 pygame.init()
 
-# Screen dimensions
-SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 800  # Variables: Storing screen dimensions as constants for reusability.
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # Output: Creates the game window.
-pygame.display.set_caption("Jeopardy Game")  # Metadata for the game window.
+<span class="comment"># Screen dimensions</span>
+SCREEN_WIDTH, SCREEN_HEIGHT = <span class="number">1200</span>, <span class="number">800</span>  <span class="comment"># Variables: Storing screen dimensions as constants for reusability.</span>
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  <span class="comment"># Output: Creates the game window.</span>
+pygame.display.set_caption(<span class="string">"Jeopardy Game"</span>)  <span class="comment"># Metadata for the game window.</span>
 
-# Colors (Using variables to avoid hardcoding and improve reusability.)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
-GRAY = (200, 200, 200)
+<span class="comment"># Colors (Using variables to avoid hardcoding and improve reusability.)</span>
+WHITE = (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>)
+BLACK = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)
+BLUE = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>)
+YELLOW = (<span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>)
+GREEN = (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>)
+RED = (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>)
+GRAY = (<span class="number">200</span>, <span class="number">200</span>, <span class="number">200</span>)
 
-# Fonts (Abstraction: Using Pygame's font module to avoid manually designing fonts.)
-FONT = pygame.font.Font(None, 36)  # Medium font
-LARGE_FONT = pygame.font.Font(None, 48)  # Large font
+<span class="comment"># Fonts (Abstraction: Using Pygame's font module to avoid manually designing fonts.)</span>
+FONT = pygame.font.Font(<span class="keyword">None</span>, <span class="number">36</span>)  <span class="comment"># Medium font</span>
+LARGE_FONT = pygame.font.Font(<span class="keyword">None</span>, <span class="number">48</span>)  <span class="comment"># Large font</span>
 
-# Load Sound (Abstraction: Pygame's `mixer` handles audio for us.)
+<span class="comment"># Load Sound (Abstraction: Pygame's `mixer` handles audio for us.)</span>
 pygame.mixer.init()
-jeopardy_theme = pygame.mixer.Sound("jeopardy.mp3")  # Input/Output: Loading an external resource.
+jeopardy_theme = pygame.mixer.Sound(<span class="string">"jeopardy.mp3"</span>)  <span class="comment"># Input/Output: Loading an external resource.</span>
 
-# Game Data (Lists and Dictionaries: Data abstraction to organize questions and categories.)
-categories = ["Algorithms", "Debugging", "Logic", "Data"]
+<span class="comment"># Game Data (Lists and Dictionaries: Data abstraction to organize questions and categories.)</span>
+categories = [<span class="string">"Algorithms"</span>, <span class="string">"Debugging"</span>, <span class="string">"Logic"</span>, <span class="string">"Data"</span>]
 questions = {
-    "Algorithms": [
-        ("A way of breaking a complex problem into smaller, more manageable parts.", "What is decomposition?"),
-        ("A repeatable sequence of steps to solve a problem.", "What is an algorithm?"),
-        ("A loop that continues while a condition is true.", "What is a while loop?"),
-        ("A method to find the largest or smallest element in a list of numbers.", "What is selection?")
+    <span class="string">"Algorithms"</span>: [
+        (<span class="string">"A way of breaking a complex problem into smaller, more manageable parts."</span>, <span class="string">"What is decomposition?"</span>),
+        (<span class="string">"A repeatable sequence of steps to solve a problem."</span>, <span class="string">"What is an algorithm?"</span>)
     ],
-    "Debugging": [
-        ("An error in the structure of code, similar to a grammar mistake in a sentence, that prevents the program from running.", "What is a syntax error?"),
-        ("An error that occurs during program execution.", "What is a runtime error?"),
-        ("An error in the program's logic that produces incorrect results, even though the code runs without crashing.", "What is a logical error?"),
-        ("A common debugging method where you follow the program’s flow line by line.", "What is step-through debugging?")
-    ],
-    "Logic": [
-        ("A logical operator where both conditions must be true.", "What is AND?"),
-        ("A logical operator that reverses a condition.", "What is NOT?"),
-        ("A table that shows all possible outcomes of logical expressions.", "What is a truth table?"),
-        ("A system of logic using true and false values for decision-making.", "What is boolean logic?")
-    ],
-    "Data": [
-        ("A data structure used to store multiple values in a single variable, typically defined with square brackets.", "What is a list?"),
-        ("A numbering system that uses only 0s and 1s.", "What is binary?"),
-        ("A method to represent colors with three numbers (0–255).", "What is RGB?"),
-        ("A structure to store key-value pairs.", "What is a dictionary?")
+    <span class="string">"Debugging"</span>: [
+        (<span class="string">"An error in the structure of code..."</span>, <span class="string">"What is a syntax error?"</span>)
     ]
 }
-point_values = [100, 200, 300, 400]  # Sequencing: Values increase with difficulty.
+point_values = [<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>]  <span class="comment"># Sequencing: Values increase with difficulty.</span>
 
-# Game State (Variables: Track the state of the game.)
-selected_question = None
-current_description = None
-current_response = None
-feedback_phase = False  # Boolean: Helps determine the current phase of the game.
-team_selection_phase = False
-selected_team = None
-team_scores = [0, 0, 0, 0]  # List: Storing scores for four teams.
-
-def draw_text_wrapped(surface, text, font, color, x, y, max_width):
-    """Display text with line wrapping. (Algorithms: Implements a text-wrapping algorithm.)"""
-    if not text:  # Guard clause to avoid errors.
-        return
-    words = text.split(' ')  # Abstraction: Splitting text into words for wrapping.
-    lines = []
-    current_line = []
-    current_width = 0
-
-    for word in words:  # Iteration: Loop through words.
-        word_width, _ = font.size(word + ' ')
-        if current_width + word_width > max_width:
-            lines.append(' '.join(current_line))
-            current_line = [word]
-            current_width = word_width
-        else:
-            current_line.append(word)
-            current_width += word_width
-    lines.append(' '.join(current_line))  # Add the last line.
-
-    for i, line in enumerate(lines):  # Iteration: Display each line.
-        line_surface = font.render(line, True, color)
-        surface.blit(line_surface, (x, y + i * font.get_linesize()))
-
-def main():
-    pass
-# Add the rest of the program logic here...
-</code></pre>
-
-<!-- Include Prism.js for Syntax Highlighting -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+# Main Game Logic Goes Here...
+    </pre>
 
 </body>
 </html>
